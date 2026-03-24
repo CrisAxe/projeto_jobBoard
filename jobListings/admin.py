@@ -1,22 +1,25 @@
 from django.contrib import admin
+from .models import JobListing
 
-from .models import Choice, Question
-
-
-class ChoiceInline(admin.TabularInline): 
-    model = Choice
-    extra = 3
-
-
-class QuestionAdmin(admin.ModelAdmin):
+class JobListingAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {"fields": ["question_text"]}),
-        ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]}),
+        ("Information about the job", {
+            "fields": ["title", "company", "level", "salary_range"]
+        }),
+        ("Location and type of work", {
+            "fields": ["location", "work"]
+        }),
+        ("Content", {
+            "fields": ["content"]
+        }),
+        ("Dates", {
+            "fields": ["date_published"],
+            "classes": ["collapse"]
+        }),
     ]
-    inlines = [ChoiceInline]
-    list_display = ["question_text", "pub_date", "was_published_recently"]
-    list_filter = ["pub_date"]
 
+    list_display = ["title", "company", "level", "location", "date_published"]
+    list_filter = ["company", "level", "location", "date_published"]
+    search_fields = ["title", "company__name", "location", "content"]
 
-
-admin.site.register(Question, QuestionAdmin)
+admin.site.register(JobListing, JobListingAdmin)
