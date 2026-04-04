@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.shortcuts import render
 from django.db.models import Q
 from jobListings.models import JobListing
@@ -6,14 +5,15 @@ from jobListings.models import JobListing
 def search_view(request):
     results = JobListing.objects.all()
 
-    keyword = request.GET.get('keyword')
-    location = request.GET.get('location')
-    level = request.GET.get('level')
+    keyword = request.GET.get("keyword")
+    location = request.GET.get("location")
+    level = request.GET.get("level")
 
     if keyword:
         results = results.filter(
             Q(title__icontains=keyword) |
-            Q(content__icontains=keyword)
+            Q(content__icontains=keyword) |
+            Q(company__name__icontains=keyword)
         )
 
     if location:
