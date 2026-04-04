@@ -13,7 +13,10 @@
 
 <p>{{ job.content }}</p>
 
-<a href="/aplicado.html"><button>Apply for Job</button></a>
+<a href="{% url 'apply_to_job' job.id %}">
+    <button>Apply for Job</button>
+</a>
+
 <br>
 <a href="/">Back</a>
 {% endblock %}
